@@ -17,5 +17,4 @@ interface ShortlyDao {
 
     @Query(value = "SELECT * from shortly_table")
     fun getAllShortly(): LiveData<List<ShortlyModel>>
-
 }

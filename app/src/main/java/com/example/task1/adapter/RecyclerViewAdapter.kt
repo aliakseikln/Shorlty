@@ -3,19 +3,17 @@ package com.example.task1.adapter
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.OnClickListener
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.task1.APP
-import com.example.task1.PresenterImpl
 import com.example.task1.R
 import com.example.task1.model.ShortlyModel
+import com.example.task1.screens.MainActivity
 
 
-class RecyclerViewAdapter(private val presenterImpl: PresenterImpl) :
+class RecyclerViewAdapter(private val view: MainActivity) :
     RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>() {
 
     private var dataArray = mutableListOf<ShortlyModel>()
@@ -25,10 +23,6 @@ class RecyclerViewAdapter(private val presenterImpl: PresenterImpl) :
         dataArray.clear()
         dataArray.addAll(responseArray)
         notifyDataSetChanged()
-    }
-
-    fun insertDataInROOM(shortlyModel: ShortlyModel) {
-        APP.insertInRoom(shortlyModel)
     }
 
     override fun onCreateViewHolder(
@@ -44,24 +38,19 @@ class RecyclerViewAdapter(private val presenterImpl: PresenterImpl) :
     @SuppressLint("NotifyDataSetChanged")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-        holder.originalLinkTV.text = dataArray[position].originalLink
+        holder.originalLinkIV.text = dataArray[position].originalLink
         holder.shortenedLinkTV.text = dataArray[position].shortlyLink
 
-        holder.trashCanIV.setOnClickListener(OnClickListener {
-           // dataArray.removeAt(position)
-            APP.deleteRoom(dataArray[position])
-
-            presenterImpl.handleDeleteButtonClick(
-                holder.originalLinkTV.text.toString(),
-                holder.shortenedLinkTV.text.toString()
-            )
+        holder.deleteButton.setOnClickListener {
+            view.handleDeleteButtonClick(dataArray[position])
+            view.showToastDeletedSuccessfully()
             notifyDataSetChanged()
-        })
+        }
 
-        holder.copyButton.setOnClickListener(OnClickListener {
+        holder.copyButton.setOnClickListener {
             val text = holder.shortenedLinkTV.text.toString()
-            presenterImpl.handleCopyButtonClick(text)
-        })
+            view.showToastCopiedSuccessfully(text)
+        }
     }
 
     override fun getItemCount(): Int {
@@ -69,8 +58,8 @@ class RecyclerViewAdapter(private val presenterImpl: PresenterImpl) :
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var originalLinkTV: TextView = itemView.findViewById(R.id.originalLinkTextView)
-        var trashCanIV: ImageView = itemView.findViewById(R.id.trashCanImageView)
+        var originalLinkIV: TextView = itemView.findViewById(R.id.originalLinkTextView)
+        var deleteButton: ImageView = itemView.findViewById(R.id.trashCanImageView)
         var shortenedLinkTV: TextView = itemView.findViewById(R.id.shortenedLinkTextView)
         var copyButton: Button = itemView.findViewById(R.id.copyButton)
     }

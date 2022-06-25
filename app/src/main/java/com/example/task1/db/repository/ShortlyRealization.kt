@@ -6,7 +6,7 @@ import com.example.task1.model.ShortlyModel
 
 class ShortlyRealization(private val shortlyDao: ShortlyDao) : ShortlyRepository {
 
-    override val allShortly: LiveData<List<ShortlyModel>>
+    override val allShortlyLinks: LiveData<List<ShortlyModel>>
         get() = shortlyDao.getAllShortly()
 
     override suspend fun insertShortly(shortlyModel: ShortlyModel, onSuccess: () -> Unit) {
@@ -16,11 +16,6 @@ class ShortlyRealization(private val shortlyDao: ShortlyDao) : ShortlyRepository
 
     override suspend fun deleteShortly(shortlyModel: ShortlyModel, onSuccess: () -> Unit) {
         shortlyDao.delete(shortlyModel)
-        onSuccess()
-    }
-
-    override suspend fun updateShortly(shortlyModel: ShortlyModel, onSuccess: () -> Unit) {
-        shortlyDao.update(shortlyModel)
         onSuccess()
     }
 }
