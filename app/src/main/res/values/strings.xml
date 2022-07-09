@@ -1,11 +1,12 @@
 <resources>
-    <string name="app_name">Task1</string>
+    <string name="app_name">Shortly</string>
     <string name="shortly_logo">Shortly</string>
     <string name="let_s_get_started">Let\'s get started!</string>
     <string name="text">Paste your first link into the field to shorten it</string>
-    <string name="hint_shorten_link">Shorten a link here ...</string>
+    <string name="hint_shorten_link">Shorten a link here …</string>
     <string name="button_text">SHORTEN IT!</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_history">Your Link History</string>
+    <string name="text_copied">COPIED!</string>
 </resources>

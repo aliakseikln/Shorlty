@@ -4,63 +4,67 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.task1.HistoryTableItem
 import com.example.task1.R
-import com.example.task1.model.ShortlyModel
-import com.example.task1.screens.MainActivity
+import com.example.task1.screens.HistoryActivity
+import kotlinx.android.synthetic.main.recycler_view_item.view.*
 
 
-class RecyclerViewAdapter(private val view: MainActivity) :
+class RecyclerViewAdapter(private val view: HistoryActivity) :
     RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>() {
 
-    private var dataArray = mutableListOf<ShortlyModel>()
+    private var arrRVBody = mutableListOf<HistoryTableItem>()
 
     @SuppressLint("NotifyDataSetChanged")
-    fun updateArrayAdapter(responseArray: List<ShortlyModel>) {
-        dataArray.clear()
-        dataArray.addAll(responseArray)
+    fun updateRVAdapter(rViewItems: MutableList<HistoryTableItem>) {
+        arrRVBody = rViewItems
         notifyDataSetChanged()
     }
 
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ): ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val v = LayoutInflater
             .from(parent.context)
             .inflate(R.layout.recycler_view_item, parent, false)
         return ViewHolder(v)
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        setItemView(holder, position)
 
-        holder.originalLinkIV.text = dataArray[position].originalLink
-        holder.shortenedLinkTV.text = dataArray[position].shortlyLink
-
-        holder.deleteButton.setOnClickListener {
-            view.handleDeleteButtonClick(dataArray[position])
-            view.showToastDeletedSuccessfully()
-            notifyDataSetChanged()
+        holder.itemView.trashCanImageView.setOnClickListener {
+            view.handleRViewDeleteButtonClick(arrRVBody[position])
         }
 
-        holder.copyButton.setOnClickListener {
-            val text = holder.shortenedLinkTV.text.toString()
-            view.showToastCopiedSuccessfully(text)
+        holder.itemView.copyButton.setOnClickListener {
+            val text = holder.itemView.shortenedLinkTV.text.toString()
+            view.makeTextCopy(text)
+            arrRVBody.forEach {
+                it.copied = false
+            }
+            arrRVBody[position].copied = true
+            view.handleRViewCopyButtonClick(arrRVBody[position])
+            notifyDataSetChanged()
+        }
+    }
+
+    private fun setItemView(holder: ViewHolder, position: Int) {
+        holder.itemView.originalLinkTV.text = arrRVBody[position].originalLink
+        holder.itemView.shortenedLinkTV.text = arrRVBody[position].shortlyLink
+
+        if (arrRVBody[position].copied) {
+            holder.itemView.copyButton.setBackgroundColor(view.getColor(R.color.main_purple))
+            holder.itemView.copyButton.text = view.getString(R.string.text_copied)
+        } else {
+            holder.itemView.copyButton.setBackgroundColor(view.getColor(R.color.main_blue))
+            holder.itemView.copyButton.text = "COPY"
         }
     }
 
     override fun getItemCount(): Int {
-        return dataArray.size
+        return arrRVBody.size
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var originalLinkIV: TextView = itemView.findViewById(R.id.originalLinkTextView)
-        var deleteButton: ImageView = itemView.findViewById(R.id.trashCanImageView)
-        var shortenedLinkTV: TextView = itemView.findViewById(R.id.shortenedLinkTextView)
-        var copyButton: Button = itemView.findViewById(R.id.copyButton)
     }
 }

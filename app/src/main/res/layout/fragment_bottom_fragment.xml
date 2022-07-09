@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/main_purple"
+    tools:context=".screens.BottomFragment">
+
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/shape" />
+
+    <EditText
+        android:id="@+id/ShortenLinkET"
+        android:layout_width="340dp"
+        android:layout_height="56dp"
+        android:layout_margin="25dp"
+        android:background="@drawable/body_for_edit_text"
+        android:fontFamily="sans-serif-medium"
+        android:hint="@string/hint_shorten_link"
+        android:textAlignment="center"
+        android:textColor="@color/my_grey"
+        android:textColorHint="@color/hint_color"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/buttonShortenIt"
+        android:layout_width="340dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginBottom="25dp"
+        android:backgroundTint="@color/main_blue"
+        android:fontFamily="sans-serif-medium"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:text="@string/button_text"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:backgroundTint="@null"
+        app:cornerRadius="7dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ShortenLinkET" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

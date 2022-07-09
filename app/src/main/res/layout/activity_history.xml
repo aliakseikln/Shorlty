@@ -1,63 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F0F1F6"
-    android:fitsSystemWindows="true"
-    tools:context=".screens.MainActivity">
-
-
-    <ImageView
-        android:id="@+id/logoImage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
-        app:layout_constraintBottom_toTopOf="@+id/mainImage"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/logo" />
-
-    <ImageView
-        android:id="@+id/mainImage"
-        android:layout_width="360dp"
-        android:layout_height="300dp"
-        android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/titleText"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/illustration" />
+    tools:context=".screens.HistoryActivity">
 
     <TextView
         android:id="@+id/titleText"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="15dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
         android:fontFamily="sans-serif-medium"
-        android:text="@string/let_s_get_started"
+        android:text="@string/title_history"
         android:textColor="#34333C"
         android:textSize="23sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/someInfoText"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/someInfoText"
-        android:layout_width="200dp"
-        android:layout_height="43dp"
-        android:layout_marginBottom="75dp"
-        android:fontFamily="sans-serif-medium"
-        android:text="@string/text"
-        android:textAlignment="center"
-        android:textColor="#34333C"
-        android:textSize="17sp"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/history_rv"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="12dp"
+        android:orientation="vertical"
+        android:paddingBottom="2dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toTopOf="@+id/bottom_history_layout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/titleText"
+        tools:listitem="@layout/recycler_view_item" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/bottom_history_layout"
@@ -70,7 +48,7 @@
         tools:context=".screens.BottomFragment">
 
         <ImageView
-            android:id="@+id/imageView_background_main"
+            android:id="@+id/imageView_background_history"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
@@ -78,7 +56,7 @@
             app:srcCompat="@drawable/shape" />
 
         <EditText
-            android:id="@+id/editText_shorten_link_main"
+            android:id="@+id/ETShortenLinkHistory"
             android:layout_width="340dp"
             android:layout_height="56dp"
             android:layout_margin="25dp"
@@ -95,7 +73,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/button_shorten_it_main"
+            android:id="@+id/button_shorten_it_history"
             android:layout_width="340dp"
             android:layout_height="56dp"
             android:layout_marginTop="25dp"
@@ -113,7 +91,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editText_shorten_link_main" />
+            app:layout_constraintTop_toBottomOf="@+id/ETShortenLinkHistory" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

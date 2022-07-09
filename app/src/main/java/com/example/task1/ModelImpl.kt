@@ -1,17 +1,17 @@
 package com.example.task1
 
 import android.util.Log
-import com.example.task1.model.ShortlyModel
+import com.example.task1.db.model.ShortlyModel
 import retrofit2.Call
 import retrofit2.Response
 
 
-class ServiceImpl : Contract.Service {
+class ModelImpl : Contract.Model {
 
     private val retrofit = RetrofitClient.getInstance()
     private val apiInterface: ApiInterface? = retrofit.create(ApiInterface::class.java)
 
-    override fun getResponseBody(urlQuery: String, serviceListener: ServiceListener) {
+    override fun getResponse(urlQuery: String, serviceListener: ServiceListener) {
         try {
             val response = apiInterface?.getResponseByUrlQuery(urlQuery)
             response?.enqueue(object : retrofit2.Callback<ModelBodyResponse?> {
@@ -20,10 +20,12 @@ class ServiceImpl : Contract.Service {
                     response: Response<ModelBodyResponse?>
                 ) {
                     if (response.body() != null) {
-                        println(response.body().toString())
                         val originalLink = response.body()!!.result.original_link
                         val shortedLink = response.body()!!.result.short_link
-                        val shortlyModel = putLinksInSharedPreferences(originalLink, shortedLink)
+                        val shortlyModel = ShortlyModel(
+                            originalLink = originalLink,
+                            shortlyLink = shortedLink
+                        )
 
                         serviceListener.onServiceSuccess(shortlyModel)
                     } else {
@@ -38,17 +40,5 @@ class ServiceImpl : Contract.Service {
         } catch (Ex: Exception) {
             Ex.localizedMessage?.let { Log.e("Error", it) }
         }
-
-
-    }
-
-    fun putLinksInSharedPreferences(originalLink: String, shortedLink: String): ShortlyModel {
-        val shortlyModel = ShortlyModel()
-        shortlyModel.originalLink = originalLink
-        shortlyModel.shortlyLink = shortedLink
-        return shortlyModel
-    }
-
-    fun deleteLinksFromSharedPreferences() {
     }
 }
