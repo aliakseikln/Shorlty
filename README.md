@@ -6,7 +6,11 @@
 
 ![photo_2022-07-26_13-57-48](https://user-images.githubusercontent.com/48939805/180990516-bbb8472c-cc99-4f60-9a32-a6d35a57eb60.jpg)
 
+<img src="https://user-images.githubusercontent.com/48939805/180990516-bbb8472c-cc99-4f60-9a32-a6d35a57eb60.jpg" width=40% height=40%>
+
 ![photo_2022-07-26_13-57-48 (2)](https://user-images.githubusercontent.com/48939805/180990527-9f10a8d5-f25e-453c-989e-a938add58cf1.jpg)
+
+<img src="https://user-images.githubusercontent.com/48939805/180990527-9f10a8d5-f25e-453c-989e-a938add58cf1.jpg" width=40% height=40%>
 
 
 # Libraries and technologies used.
