@@ -1,4 +1,4 @@
-package com.example.task1
+package com.example.task1.data.retrofit
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

@@ -1,13 +1,14 @@
 package com.example.task1
 
-import com.example.task1.model.ShortlyModel
+import com.example.task1.data.pojo.Shortly
 
 interface ViewModelListener {
-    fun onServiceSuccess(response: ShortlyModel)
+
+    fun onServiceSuccess(response: Shortly)
 
     fun onFailure(throwable: Throwable)
 
-    fun onIncorrectInputQuery()
+    fun onIncorrectTextQueryInput()
 
-    fun onItemAlreadyInDB()
+    fun onItemAlreadyInDataBase()
 }

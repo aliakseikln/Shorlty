@@ -25,7 +25,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
-                android:id="@+id/originalLinkTextView"
+                android:id="@+id/originalLinkTV"
                 android:layout_width="0dp"
                 android:layout_height="25dp"
                 android:layout_marginStart="16dp"
@@ -40,9 +40,10 @@
 
             <ImageView
                 android:id="@+id/trashCanImageView"
-                android:layout_width="27dp"
-                android:layout_height="27dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_margin="8dp"
+                android:padding="5dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -63,7 +64,7 @@
             app:layout_constraintTop_toBottomOf="@+id/constraintLayout3">
 
             <TextView
-                android:id="@+id/shortenedLinkTextView"
+                android:id="@+id/shortenedLinkTV"
                 android:layout_width="322dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -78,7 +79,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="15dp"
-                android:backgroundTint="#2AD0D0"
+                android:backgroundTint="@color/main_blue"
+                app:backgroundTint="@null"
+                app:cornerRadius="7dp"
                 android:fontFamily="sans-serif-medium"
                 android:text="COPY"
                 android:textSize="20sp"
@@ -86,7 +89,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/shortenedLinkTextView" />
+                app:layout_constraintTop_toBottomOf="@+id/shortenedLinkTV" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,17 +1,31 @@
-package com.example.task1
+package com.example.task1.data.db
 
 import android.util.Log
-import com.example.task1.model.ShortlyModel
+import com.example.task1.ContractMVVM
+import com.example.task1.ModelListener
+import com.example.task1.data.pojo.ModelBodyResponse
+import com.example.task1.data.pojo.Shortly
+import com.example.task1.data.retrofit.ApiInterface
+import com.example.task1.data.retrofit.RetrofitClient
 import retrofit2.Call
 import retrofit2.Response
 
 
-class ServiceImpl : Contract.Service {
+class ModelImpl : ContractMVVM.Model {
 
+    private var copiedItemId: Int = 0
     private val retrofit = RetrofitClient.getInstance()
     private val apiInterface: ApiInterface? = retrofit.create(ApiInterface::class.java)
 
-    override fun getResponseBody(urlQuery: String, serviceListener: ServiceListener) {
+    fun setCopiedItemId(copiedItemId: Int){
+        this.copiedItemId = copiedItemId
+    }
+
+    fun getCopiedItemId(): Int {
+        return copiedItemId
+    }
+
+    override fun getResponse(urlQuery: String, modelListener: ModelListener) {
         try {
             val response = apiInterface?.getResponseByUrlQuery(urlQuery)
             response?.enqueue(object : retrofit2.Callback<ModelBodyResponse?> {
@@ -20,35 +34,25 @@ class ServiceImpl : Contract.Service {
                     response: Response<ModelBodyResponse?>
                 ) {
                     if (response.body() != null) {
-                        println(response.body().toString())
                         val originalLink = response.body()!!.result.original_link
                         val shortedLink = response.body()!!.result.short_link
-                        val shortlyModel = putLinksInSharedPreferences(originalLink, shortedLink)
+                        val shortly = Shortly(
+                            originalLink = originalLink,
+                            shortlyLink = shortedLink
+                        )
 
-                        serviceListener.onServiceSuccess(shortlyModel)
+                        modelListener.onServiceSuccess(shortly)
                     } else {
-                        serviceListener.onIncorrectInputQuery()
+                        modelListener.onIncorrectInputQuery()
                     }
                 }
 
                 override fun onFailure(call: Call<ModelBodyResponse?>, t: Throwable) {
-                    serviceListener.onFailure(t)
+                    modelListener.onFailure(t)
                 }
             })
         } catch (Ex: Exception) {
             Ex.localizedMessage?.let { Log.e("Error", it) }
         }
-
-
-    }
-
-    fun putLinksInSharedPreferences(originalLink: String, shortedLink: String): ShortlyModel {
-        val shortlyModel = ShortlyModel()
-        shortlyModel.originalLink = originalLink
-        shortlyModel.shortlyLink = shortedLink
-        return shortlyModel
-    }
-
-    fun deleteLinksFromSharedPreferences() {
     }
 }
