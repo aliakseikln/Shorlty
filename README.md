@@ -1,13 +1,7 @@
 # Shorlty
 
-![1](https://user-images.githubusercontent.com/78867217/143778911-20c19914-7f67-41c9-ab0f-0a609f9f07e7.jpg)
+![photo_2022-07-26_13-57-49](https://user-images.githubusercontent.com/48939805/180990498-0f4d8e1b-b810-41ef-9d7a-1d05efcaa8f5.jpg)
 
-![2](https://user-images.githubusercontent.com/78867217/143778942-5ec4c4fc-2e02-4acc-86f8-7bd69c4837b1.jpg)
+![photo_2022-07-26_13-57-48](https://user-images.githubusercontent.com/48939805/180990516-bbb8472c-cc99-4f60-9a32-a6d35a57eb60.jpg)
 
-![6 (1)](https://user-images.githubusercontent.com/78867217/143781457-104ca064-80ad-4cb9-82f1-b2e8b6abf3b2.jpg)
-
-![3](https://user-images.githubusercontent.com/78867217/143778946-0ed6e7bd-8d00-46d0-9aac-9b2926d44194.jpg)
-
-![4](https://user-images.githubusercontent.com/78867217/143778948-6b290e99-0212-4116-b3c2-08388852146f.jpg)
-
-![5](https://user-images.githubusercontent.com/78867217/143778949-deda1f32-feda-4dcc-b45c-c287271c7a70.jpg)
+![photo_2022-07-26_13-57-48 (2)](https://user-images.githubusercontent.com/48939805/180990527-9f10a8d5-f25e-453c-989e-a938add58cf1.jpg)
