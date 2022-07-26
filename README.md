@@ -3,7 +3,7 @@ Shorten your long links just copy and paste them into the field and confirm the 
 
 Home screen:
 
-<img src="https://user-images.githubusercontent.com/48939805/180990498-0f4d8e1b-b810-41ef-9d7a-1d05efcaa8f5.jpg" width=35% height=30%>
+<img src="https://user-images.githubusercontent.com/48939805/180990498-0f4d8e1b-b810-41ef-9d7a-1d05efcaa8f5.jpg" width=35% height=10%>
 
 Screen state after incorrectly entered url:
 
