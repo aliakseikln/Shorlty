@@ -1,7 +1,7 @@
 # Shorlty
 Shorten your long links just copy and paste them into the field and confirm the action! And then they will be displayed in your history list.
 
--Home screen:
+Home screen:
 
 <img src="https://user-images.githubusercontent.com/48939805/180990498-0f4d8e1b-b810-41ef-9d7a-1d05efcaa8f5.jpg" width=35% height=35%>
 
