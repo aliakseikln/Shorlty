@@ -15,9 +15,9 @@ Shorten your long links just copy and paste them into the field and confirm the 
 
 
 # Libraries and technologies used.
-- Retrofit : making HTTP connection with the rest API and convert reponse json file to Kotlin/Java object.
+- Retrofit : Making HTTP connection with the rest API and convert reponse json file to Kotlin/Java object.
 - Room : Save meals in local database.
 - MVVM & LiveData : Saperate logic code from views and save the state in case the screen configuration changes.
-- Coroutines : do some code in the background.
-- view binding : instead of inflating views manually view binding will take care of that.
-- Koin : dependency injection.
+- Coroutines : Do some code in the background.
+- view binding : Instead of inflating views manually view binding will take care of that.
+- Koin : Dependency injection.
