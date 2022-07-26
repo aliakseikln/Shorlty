@@ -1,9 +1,10 @@
 package com.example.task1
 
-import com.example.task1.db.model.ShortlyModel
+import com.example.task1.data.pojo.Shortly
 
 interface ViewModelListener {
-    fun onServiceSuccess(response: ShortlyModel)
+
+    fun onServiceSuccess(response: Shortly)
 
     fun onFailure(throwable: Throwable)
 

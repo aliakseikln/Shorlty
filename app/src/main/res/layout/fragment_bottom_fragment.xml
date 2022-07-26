@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/main_purple"
-    tools:context=".screens.BottomFragment">
+    tools:context=".ui.BottomFragment">
 
     <ImageView
         android:id="@+id/imageView5"

@@ -1,4 +1,4 @@
-package com.example.task1
+package com.example.task1.data.pojo
 
 
 data class ModelBodyResponse(

@@ -1,4 +1,4 @@
-package com.example.task1.db.model
+package com.example.task1.data.pojo
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
@@ -7,7 +7,7 @@ import java.io.Serializable
 
 
 @Entity(tableName = "shortly_table")
-class ShortlyModel(
+class Shortly(
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0,
     @ColumnInfo
@@ -20,7 +20,7 @@ class ShortlyModel(
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
 
-        other as ShortlyModel
+        other as Shortly
 
         if (id != other.id) return false
         if (originalLink != other.originalLink) return false

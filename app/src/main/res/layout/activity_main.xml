@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="#F0F1F6"
     android:fitsSystemWindows="true"
-    tools:context=".screens.MainActivity">
+    tools:context=".ui.MainActivity">
 
 
     <ImageView
@@ -67,7 +67,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:context=".screens.BottomFragment">
+        tools:context=".ui.BottomFragment">
 
         <ImageView
             android:id="@+id/imageView_background_main"

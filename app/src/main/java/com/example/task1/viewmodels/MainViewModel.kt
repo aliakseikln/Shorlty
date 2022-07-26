@@ -1,22 +1,22 @@
-package com.example.task1.screens
+package com.example.task1.viewmodels
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
-import com.example.task1.Contract
-import com.example.task1.ModelImpl
-import com.example.task1.ServiceListener
+import com.example.task1.ContractMVVM
+import com.example.task1.data.db.ModelImpl
+import com.example.task1.ModelListener
 import com.example.task1.ViewModelListener
-import com.example.task1.db.ShortlyDataBase
-import com.example.task1.db.model.ShortlyModel
-import com.example.task1.db.repository.ShortlyRealization
-import com.example.task1.db.repository.ShortlyRepository
+import com.example.task1.data.db.ShortlyDataBase
+import com.example.task1.data.pojo.Shortly
+import com.example.task1.data.repository.ShortlyRealization
+import com.example.task1.data.repository.ShortlyRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class MainViewModel(private val context: Application, private val service: ModelImpl) :
-    AndroidViewModel(context), Contract.ViewModel {
+    AndroidViewModel(context), ContractMVVM.ViewModel {
 
     private lateinit var shortlyRepository: ShortlyRepository
 
@@ -25,42 +25,34 @@ class MainViewModel(private val context: Application, private val service: Model
         shortlyRepository = ShortlyRealization(daoShortly)
     }
 
-    override fun getAllHistoryLinks(): LiveData<List<ShortlyModel>> {
+    override fun getAllHistoryLinks(): LiveData<List<Shortly>> {
         return shortlyRepository.allShortlyLinks
     }
 
-    override fun insert(shortlyModel: ShortlyModel, onSuccess: () -> Unit) =
+    override fun insert(shortly: Shortly) =
         viewModelScope.launch(Dispatchers.IO) {
-            shortlyRepository.insertShortly(shortlyModel) {
-                onSuccess()
-            }
+            shortlyRepository.insertShortly(shortly)
         }
 
-   override fun deleteById(id: Int, onSuccess: () -> Unit) =
+    override fun deleteById(id: Int) =
         viewModelScope.launch(Dispatchers.IO) {
-            shortlyRepository.deleteShortlyById(id) {
-                onSuccess()
-            }
+            shortlyRepository.deleteShortlyById(id)
         }
 
-    override fun delete(shortlyModel: ShortlyModel, onSuccess: () -> Unit) =
+    override fun delete(shortly: Shortly) =
         viewModelScope.launch(Dispatchers.IO) {
-            shortlyRepository.deleteShortly(shortlyModel) {
-                onSuccess()
-            }
+            shortlyRepository.deleteShortly(shortly)
         }
 
-    override fun update(shortlyModel: ShortlyModel, onSuccess: () -> Unit) =
+    override fun update(shortly: Shortly) =
         viewModelScope.launch(Dispatchers.IO) {
-            shortlyRepository.updateShortly(shortlyModel) {
-                onSuccess()
-            }
+            shortlyRepository.updateShortly(shortly)
         }
 
     override fun handleButtonShortenItClick(linkToShorten: String, vmListener: ViewModelListener) {
-        service.getResponse(linkToShorten, object : ServiceListener {
+        service.getResponse(linkToShorten, object : ModelListener {
 
-            override fun onServiceSuccess(response: ShortlyModel) {
+            override fun onServiceSuccess(response: Shortly) {
                 vmListener.onServiceSuccess(response)
             }
 
@@ -76,5 +68,13 @@ class MainViewModel(private val context: Application, private val service: Model
                 vmListener.onItemAlreadyInDataBase()
             }
         })
+    }
+
+    fun setCopiedItemId(copiedItemId: Int){
+        service.setCopiedItemId(copiedItemId)
+    }
+
+    fun getCopiedItemId(): Int {
+        return service.getCopiedItemId()
     }
 }

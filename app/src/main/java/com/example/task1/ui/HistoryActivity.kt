@@ -1,4 +1,4 @@
-package com.example.task1.screens
+package com.example.task1.ui
 
 import android.content.ClipData
 import android.content.ClipboardManager
@@ -7,35 +7,37 @@ import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.inputmethod.InputMethodManager
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import com.example.task1.*
-import com.example.task1.adapter.RecyclerViewAdapter
+import com.example.task1.ui.adapters.RecyclerViewAdapter
+import com.example.task1.data.pojo.HistoryTableItem
 import com.example.task1.databinding.ActivityHistoryBinding
-import com.example.task1.db.model.ShortlyModel
+import com.example.task1.data.pojo.Shortly
+import com.example.task1.viewmodels.MainViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class HistoryActivity : AppCompatActivity(), Contract.View {
+class HistoryActivity : AppCompatActivity(), ContractMVVM.View {
 
     private lateinit var binding: ActivityHistoryBinding
     private lateinit var rVAdapter: RecyclerViewAdapter
     private val vm by viewModel<MainViewModel>()
+    private lateinit var rVItems: MutableList<HistoryTableItem>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         init()
 
         vm.getAllHistoryLinks().observe(this) { listShortly ->
-            RV_ITEMS.clear()
+            rVItems.clear()
             listShortly.forEach {
-                if (COPIED_ITEM_ID == it.id) {
-                    RV_ITEMS.add(HistoryTableItem(it.id, it.originalLink, it.shortlyLink, true))
+                if (vm.getCopiedItemId() == it.id) {
+                    rVItems.add(HistoryTableItem(it.id, it.originalLink, it.shortlyLink, true))
                 } else {
-                    RV_ITEMS.add(HistoryTableItem(it.id, it.originalLink, it.shortlyLink, false))
+                    rVItems.add(HistoryTableItem(it.id, it.originalLink, it.shortlyLink, false))
                 }
             }
-            rVAdapter.updateRVAdapter(RV_ITEMS.asReversed())
+            rVAdapter.updateRVAdapter(rVItems.asReversed())
         }
 
         binding.ETShortenLinkHistory.addTextChangedListener {
@@ -52,7 +54,7 @@ class HistoryActivity : AppCompatActivity(), Contract.View {
     private fun init() {
         binding = ActivityHistoryBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        rVItems = arrayListOf()
         rVAdapter = RecyclerViewAdapter(this)
         binding.historyRv.adapter = rVAdapter
         binding.historyRv.setHasFixedSize(true)
@@ -69,25 +71,11 @@ class HistoryActivity : AppCompatActivity(), Contract.View {
             binding.ETShortenLinkHistory.setBackgroundResource(R.drawable.body_for_edit_text_error)
         } else {
             val linkToShorten: String = binding.ETShortenLinkHistory.text.toString().trim()
+
             vm.handleButtonShortenItClick(linkToShorten, object : ViewModelListener {
-                override fun onServiceSuccess(response: ShortlyModel) {
-                    if (RV_ITEMS.isEmpty()) {
-                        binding.ETShortenLinkHistory.text.clear()
-                        vm.insert(response) {}
-                    } else {
-                        var copies = 0
-                        for (item in RV_ITEMS) {
-                            if (item.originalLink == response.originalLink) {
-                                showToastLinkAlreadyInHistory()
-                                copies += 1
-                                break
-                            }
-                        }
-                        if (copies == 0) {
-                            binding.ETShortenLinkHistory.text.clear()
-                            vm.insert(response) {}
-                        }
-                    }
+                override fun onServiceSuccess(response: Shortly) {
+                    binding.ETShortenLinkHistory.text.clear()
+                    vm.insert(response)
                 }
 
                 override fun onFailure(throwable: Throwable) {
@@ -99,7 +87,6 @@ class HistoryActivity : AppCompatActivity(), Contract.View {
                 }
 
                 override fun onItemAlreadyInDataBase() {
-                    showToastLinkAlreadyInHistory()
                 }
             }
             )
@@ -107,18 +94,13 @@ class HistoryActivity : AppCompatActivity(), Contract.View {
     }
 
     fun handleRViewDeleteButtonClick(historyTableItem: HistoryTableItem) {
-        vm.deleteById(historyTableItem.id) {}
+        vm.deleteById(historyTableItem.id)
     }
 
     fun makeTextCopy(textToCopy: String) {
         val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         val clip = ClipData.newPlainText(textToCopy, textToCopy)
         clipboard.setPrimaryClip(clip)
-    }
-
-    override fun showToastLinkAlreadyInHistory() {
-        Toast.makeText(this, "This link is already in your History", Toast.LENGTH_SHORT)
-            .show()
     }
 
     override fun showMessageInputError() {
@@ -128,7 +110,7 @@ class HistoryActivity : AppCompatActivity(), Contract.View {
         binding.ETShortenLinkHistory.setBackgroundResource(R.drawable.body_for_edit_text_error)
     }
 
-    fun handleRViewCopyButtonClick(historyTableItem: HistoryTableItem) {
-        COPIED_ITEM_ID = historyTableItem.id
+    fun handleRViewCopyButtonClick(selectedItemId: Int) {
+        vm.setCopiedItemId(selectedItemId)
     }
 }

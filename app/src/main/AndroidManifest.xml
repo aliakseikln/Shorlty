@@ -13,11 +13,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Task1">
         <activity
-            android:name=".screens.HistoryActivity"
+            android:name=".ui.HistoryActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".screens.MainActivity"
+            android:name=".ui.MainActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>

@@ -1,5 +1,6 @@
-package com.example.task1
+package com.example.task1.data.retrofit
 
+import com.example.task1.data.pojo.ModelBodyResponse
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query

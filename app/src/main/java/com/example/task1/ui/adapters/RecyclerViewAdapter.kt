@@ -1,13 +1,13 @@
-package com.example.task1.adapter
+package com.example.task1.ui.adapters
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.task1.HistoryTableItem
+import com.example.task1.data.pojo.HistoryTableItem
 import com.example.task1.R
-import com.example.task1.screens.HistoryActivity
+import com.example.task1.ui.HistoryActivity
 import kotlinx.android.synthetic.main.recycler_view_item.view.*
 
 
@@ -43,7 +43,7 @@ class RecyclerViewAdapter(private val view: HistoryActivity) :
                 it.copied = false
             }
             arrRVBody[position].copied = true
-            view.handleRViewCopyButtonClick(arrRVBody[position])
+            view.handleRViewCopyButtonClick(arrRVBody[position].id)
             notifyDataSetChanged()
         }
     }
@@ -65,6 +65,5 @@ class RecyclerViewAdapter(private val view: HistoryActivity) :
         return arrRVBody.size
     }
 
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-    }
+    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 }
