@@ -5,7 +5,7 @@ Home screen:
 
 <img src="https://user-images.githubusercontent.com/48939805/180990498-0f4d8e1b-b810-41ef-9d7a-1d05efcaa8f5.jpg" width=35% height=35%>
 
-How it work:
+How it works:
 
 <img src="https://user-images.githubusercontent.com/48939805/181055260-814a6207-2207-4287-ad28-20581cd0b02f.gif" width=35% height=35%>
 
