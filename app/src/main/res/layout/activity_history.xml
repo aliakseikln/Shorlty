@@ -63,6 +63,8 @@
             android:background="@drawable/body_for_edit_text"
             android:fontFamily="sans-serif-medium"
             android:hint="@string/hint_shorten_link"
+            android:inputType="text"
+            android:maxLines="1"
             android:textAlignment="center"
             android:textColor="@color/my_grey"
             android:textColorHint="@color/hint_color"
