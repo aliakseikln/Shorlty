@@ -15,5 +15,5 @@ How it works:
 - Room : Save meals in local database.
 - MVVM & LiveData : Saperate logic code from views and save the state in case the screen configuration changes.
 - Coroutines : Do some code in the background.
-- view binding : Instead of inflating views manually view binding will take care of that.
+- View binding : Instead of inflating views manually view binding will take care of that.
 - Koin : Dependency injection.
