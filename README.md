@@ -7,7 +7,7 @@ Home screen:
 
 How it works:
 
-<img src="https://user-images.githubusercontent.com/48939805/181055260-814a6207-2207-4287-ad28-20581cd0b02f.gif" width=35% height=35%>
+<img src="https://user-images.githubusercontent.com/48939805/181057562-60599944-514d-4b6f-b393-995ecc451cd8.gif" width=35% height=35%>
 
 
 # Libraries and technologies used.
