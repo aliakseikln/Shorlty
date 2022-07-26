@@ -5,69 +5,101 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
-import android.view.View.OnClickListener
-import android.widget.Button
-import android.widget.EditText
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.task1.*
 import com.example.task1.adapter.RecyclerViewAdapter
+import com.example.task1.databinding.ActivityMainBinding
 import com.example.task1.model.ShortlyModel
-
 
 class MainActivity : AppCompatActivity(), Contract.View {
 
-    private lateinit var presenter: PresenterImpl
-    private lateinit var button: Button
-    private lateinit var editText: EditText
-    private lateinit var viewModel: MyViewModel
-    private lateinit var recyclerViewAdapter: RecyclerViewAdapter
+    private lateinit var binding: ActivityMainBinding
+    private lateinit var vm: MainViewModel
+    private lateinit var rVAdapter: RecyclerViewAdapter
+    private lateinit var listOfShortlyModelsFromRoom: MutableList<ShortlyModel>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        APP = this
-        button = findViewById(R.id.buttonShortenIt)
-        editText = findViewById(R.id.editTextShortenLink)
-        presenter = PresenterImpl(this, ServiceImpl())
-        PRESENTER = presenter
-        recyclerViewAdapter = RecyclerViewAdapter(presenter)
-        RECYCLERVIEWADAPTER = recyclerViewAdapter
-        viewModel = ViewModelProvider(this)[MyViewModel::class.java]
-        viewModel.initDataBase()
-       // viewModel.getAllShortly()
-        VIEWMODEL = viewModel
-        VIEWMODEL.getAllShortly().observe(APP) { listShortly ->
-            recyclerViewAdapter.updateArrayAdapter(listShortly.asReversed())
+        init()
+
+        vm.getAllHistoryLinks().observe(this) { listShortly ->
+            rVAdapter.updateArrayAdapter(listShortly.asReversed())
+            listOfShortlyModelsFromRoom.clear()
+            listOfShortlyModelsFromRoom.addAll(listShortly)
         }
 
         showMainFragment()
 
-        editText.setOnClickListener(OnClickListener {
-            editText.hint = "Shorten a link here ..."
-            editText.setHintTextColor(Color.WHITE)
-            editText.setBackgroundResource(R.drawable.body_for_edit_text)
-        })
+        binding.ShortenLinkET.setOnClickListener {
+            binding.ShortenLinkET.hint = "Shorten a link here ..."
+            binding.ShortenLinkET.setHintTextColor(Color.WHITE)
+            binding.ShortenLinkET.setBackgroundResource(R.drawable.body_for_edit_text)
+        }
 
-        button.setOnClickListener(OnClickListener {
-            if (editText.text.toString() == "") {
-                editText.hint = "Please add a link here"
-                editText.setHintTextColor(Color.RED)
-                editText.setBackgroundResource(R.drawable.body_for_edit_text_error)
+        binding.buttonShortenIt.setOnClickListener {
+            if (binding.ShortenLinkET.text.toString() == "") {
+                binding.ShortenLinkET.hint = "Please add a link here"
+                binding.ShortenLinkET.setHintTextColor(Color.RED)
+                binding.ShortenLinkET.setBackgroundResource(R.drawable.body_for_edit_text_error)
             } else {
-                presenter.handleButtonShortenItClick(editText.text.toString().trim())
+                val linkToShorten: String = binding.ShortenLinkET.text.toString().trim()
+
+                vm.handleButtonShortenItClick(linkToShorten, object : ViewModelListener {
+                    override fun onServiceSuccess(response: ShortlyModel) {
+                        if (listOfShortlyModelsFromRoom.isEmpty()) {
+                            vm.insert(response) {}
+                        } else {
+                            var copies = 0
+                            for (item in listOfShortlyModelsFromRoom) {
+                                if (item.originalLink == response.originalLink) {
+                                    showToastLinkAlreadyInHistory()
+                                    copies += 1
+                                    break
+                                }
+                            }
+                            if (copies == 0) {
+                                vm.insert(response) {}
+                            }
+                        }
+                        showHistoryFragment()
+                    }
+
+                    override fun onFailure(throwable: Throwable) {
+                        throwable.localizedMessage?.let { Log.e("PENA", it) }
+                    }
+
+                    override fun onIncorrectInputQuery() {
+                        showMessageInputError()
+                    }
+
+                    override fun onItemAlreadyInDB() {
+                        showToastLinkAlreadyInHistory()
+                        showHistoryFragment()
+                    }
+                }
+                )
             }
-        })
+        }
     }
 
-    fun insertInRoom(shortlyModel: ShortlyModel) {
-        viewModel.insert(shortlyModel) {}
+    private fun init() {
+        listOfShortlyModelsFromRoom = arrayListOf()
+        vm = ViewModelProvider(
+            owner = this,
+            factory = MainViewModelFactory(application, ServiceImpl())
+        )[MainViewModel::class.java]
+        vm.initDataBase()
+        rVAdapter = RecyclerViewAdapter(this)
     }
 
-    fun deleteRoom(shortlyModel: ShortlyModel) {
-        viewModel.delete(shortlyModel) {}
+    fun handleDeleteButtonClick(shortlyModel: ShortlyModel) {
+        vm.delete(shortlyModel) {}
     }
 
     override fun showMainFragment() {
@@ -83,8 +115,7 @@ class MainActivity : AppCompatActivity(), Contract.View {
                 .beginTransaction()
                 .replace(
                     R.id.place_holder,
-                    //  HistoryFragment.newInstance(recyclerAdapter = recyclerViewAdapter)
-                    HistoryFragment.newInstance()
+                    HistoryFragment.newInstance(this, rVAdapter)
                 )
                 .addToBackStack(null)
                 .commit()
@@ -93,8 +124,7 @@ class MainActivity : AppCompatActivity(), Contract.View {
                 .beginTransaction()
                 .replace(
                     R.id.place_holder,
-//                    HistoryFragment.newInstance(recyclerAdapter = recyclerViewAdapter)
-                    HistoryFragment.newInstance()
+                    HistoryFragment.newInstance(this, rVAdapter)
                 )
                 .commit()
         }
@@ -108,9 +138,9 @@ class MainActivity : AppCompatActivity(), Contract.View {
         }
     }
 
-    override fun showToastCopiedSuccessfully(textToShowCopied: String) {
+    override fun showToastCopiedSuccessfully(textToCopy: String) {
         val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-        val clip = ClipData.newPlainText(textToShowCopied, textToShowCopied)
+        val clip = ClipData.newPlainText(textToCopy, textToCopy)
         clipboard.setPrimaryClip(clip)
         Toast.makeText(this, "COPIED!", Toast.LENGTH_SHORT).show()
     }
@@ -119,19 +149,15 @@ class MainActivity : AppCompatActivity(), Contract.View {
         Toast.makeText(this, "DELETED!", Toast.LENGTH_SHORT).show()
     }
 
-    override fun updateRecyclerViewAdapter(response: ShortlyModel) {
-        recyclerViewAdapter.insertDataInROOM(response)
+    override fun showMessageInputError() {
+        binding.ShortenLinkET.hint = "invalid url ..."
+        binding.ShortenLinkET.setHintTextColor(Color.RED)
+        binding.ShortenLinkET.setBackgroundResource(R.drawable.body_for_edit_text_error)
+        binding.ShortenLinkET.text = null
     }
 
-    override fun showInputErrorMessage() {
-        editText.hint = "invalid url ..."
-        editText.setHintTextColor(Color.RED)
-        editText.setBackgroundResource(R.drawable.body_for_edit_text_error)
-        editText.text = null
-    }
-
-    override fun showToastItemAlreadyInDB() {
-        Toast.makeText(this, "This link is already in your list of History", Toast.LENGTH_SHORT)
+    override fun showToastLinkAlreadyInHistory() {
+        Toast.makeText(this, "This link is already in your History", Toast.LENGTH_SHORT)
             .show()
     }
 }
