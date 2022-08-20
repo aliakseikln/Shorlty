@@ -1,5 +1,5 @@
 # Shorlty
-Shorten your long links just copy and paste them into the field and confirm the action! And then they will be displayed in your history list.
+Shorten your long links just copy and paste them into the field and confirm the action! And then they will be displayed in your history list but already shortened and they can be copied to anyone in one click!
 
 ## Case Study:
 * [Koin](https://insert-koin.io/)
