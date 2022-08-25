@@ -3,16 +3,16 @@ Shorten your long links just copy and paste them into the field and confirm the 
 
 ## Case Study:
 * [Koin](https://insert-koin.io/) - Dependency injection in the project.
-   - create modules
-   - create ViewModel module
-   - Start Koin
-   - inject the viewmodel dependency
+   - How to create modules
+   - How to create ViewModel module
+   - How to Start Koin
+   - How to inject the viewmodel dependency
 * [Retrofit](https://square.github.io/retrofit/) - REST client for Java and Android. It makes it easy to get and load JSON.
-  - Creating Model Class.
-  - Create The Retrofit Instance.
+  - How to create Model Class.
+  - How to create The Retrofit Instance.
   - Setting Up The Retrofit Interface.
   - Consume The REST Web Service.
-  - Set Retrofit response data into the Recyclerview.
+  - How to Set Retrofit response data into the Recyclerview.
 
   ## Preview:
 <img src="https://user-images.githubusercontent.com/48939805/186481612-ffb3dc3c-50ae-46ee-ac99-0a69665ee49e.gif" width=35% height=35%>
