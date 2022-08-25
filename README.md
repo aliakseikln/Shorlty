@@ -1,6 +1,9 @@
 # Shorlty
 Shorten your long links just copy and paste them into the field and confirm the action! And then they will be displayed in your history list but already shortened and they can be copied to anyone in one click!
 
+  ## Preview:
+<img src="https://user-images.githubusercontent.com/48939805/186481612-ffb3dc3c-50ae-46ee-ac99-0a69665ee49e.gif" width=35% height=35%>
+
 ## Case Study:
 * [Koin](https://insert-koin.io/) - Dependency injection in the project.
    - How to create modules
@@ -13,9 +16,6 @@ Shorten your long links just copy and paste them into the field and confirm the 
   - Setting Up The Retrofit Interface.
   - Consume The REST Web Service.
   - How to Set Retrofit response data into the Recyclerview.
-
-  ## Preview:
-<img src="https://user-images.githubusercontent.com/48939805/186481612-ffb3dc3c-50ae-46ee-ac99-0a69665ee49e.gif" width=35% height=35%>
 
 # Libraries and technologies used:
 - [Retrofit](https://square.github.io/retrofit/) - Making HTTP connection with the rest API and convert reponse json file to Kotlin/Java object.
